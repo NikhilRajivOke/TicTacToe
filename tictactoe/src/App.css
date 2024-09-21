@@ -1,0 +1,26 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-template-rows: 33% 33% 33%;
+  padding: 10px;
+  min-width:50%;
+  min-height: 600px;
+}
+.grid-card {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20%;
+  font-size: 30px;
+  text-align: center;
+}
+
+.game-layout{
+  padding:10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-item{
+  padding:5%;
+  padding:10%;
+}
