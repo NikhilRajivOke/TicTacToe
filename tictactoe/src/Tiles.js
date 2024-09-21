@@ -1,4 +1,7 @@
-function Tile({ base, checkWinner, updateGame }) {
+import { useState } from "react";
+
+function Tile({ base, updateGame }) {
+  const [curPlayer, setPlayer] = useState("player1");
   const handlePlayerMove = (rowIndex, markIndex, mark) => {
     base[rowIndex][markIndex] = mark;
     updateGame(base);
@@ -13,6 +16,8 @@ function Tile({ base, checkWinner, updateGame }) {
             rowIndex={rowIndex}
             markIndex={markIndex}
             handler={handlePlayerMove}
+            curPlayer={curPlayer}
+            setPlayer={setPlayer}
             key={rowIndex * 3 + markIndex}
           ></Card>
         ))
@@ -21,11 +26,19 @@ function Tile({ base, checkWinner, updateGame }) {
   );
 }
 
-function Card({ mark, rowIndex, markIndex, handler }) {
-  const row = rowIndex;
-  const col = markIndex;
+function Card({ mark, rowIndex, markIndex, handler, curPlayer, setPlayer }) {
+  const [clicked, setClicked] = useState(false);
   return (
-    <button onClick={(e) => handler(row, col, e.target.value)}>{mark}</button>
+    <button disabled={clicked}
+      onClick={(e) => {
+        setClicked(!clicked);
+        let movePlayed = curPlayer == "player1" ? "X" : "O";
+        handler(rowIndex, markIndex, movePlayed);
+        setPlayer(curPlayer == "player1"?"player2":"player1");
+      }}
+    >
+      {clicked && <>{mark ? mark : curPlayer == "player1" ? "X" : "O"}</>}
+    </button>
   );
 }
 export default Tile;
