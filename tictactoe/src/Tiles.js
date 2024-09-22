@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 function Tile({ base, updateGame }) {
+  
   const [curPlayer, setPlayer] = useState("player1");
   const handlePlayerMove = (rowIndex, markIndex, mark) => {
     base[rowIndex][markIndex] = mark;
