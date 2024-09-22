@@ -38,7 +38,7 @@ function Card({ mark, rowIndex, markIndex, handler, curPlayer, setPlayer }) {
         setPlayer(curPlayer == "player1"?"player2":"player1");
       }}
     >
-      {clicked && <>{mark ? mark : curPlayer == "player1" ? "X" : "O"}</>}
+      {clicked && <div className="mark">{mark ? mark : curPlayer == "player1" ? "X" : "O"}</div>}
     </button>
   );
 }
