@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import Logo from "./Logo";
-import Tile from "./Tiles";
+import { Player } from "./Player";
+
+const Tile = lazy(() => import("./Tiles"));
+const WinnerModal = lazy(() => import("./WinnerModal"));
 
 function Game() {
   const base = [
@@ -11,6 +14,10 @@ function Game() {
   const [player1, setPlayer1] = useState("");
   const [player2, setPlayer2] = useState("");
   const [game, setGame] = useState(base);
+  const [startGame, validGame] = useState(false);
+  const [winner, setWinner] = useState("");
+  const [winnerModal, showModal] = useState(false);
+  const [gameOver, setGameState] = useState(false);
 
   useEffect(() => {
     const rowsX = checkRow(0, "X") || checkRow(1, "X") || checkRow(2, "X");
@@ -21,8 +28,16 @@ function Game() {
       checkColumn(0, "O") || checkColumn(1, "O") || checkColumn(2, "O");
     const diagX = checkDiag("X");
     const diagO = checkDiag("O");
-    if (colX || rowsX || diagX) console.log(" Player 1 won");
-    if (colO || rowsO || diagO) console.log(" Player 2 won");
+    if (colX || rowsX || diagX) {
+      setWinner(player1);
+      showModal(true);
+      setGameState(true);
+    }
+    if (colO || rowsO || diagO) {
+      setWinner(player2);
+      showModal(true);
+      setGameState(true);
+    }
   }, [game]);
 
   const checkRow = (row, target) => {
@@ -59,43 +74,63 @@ function Game() {
   };
 
   const handleReset = () => {
-    setGame(base);
+    setGame([...base]);
+    setGameState(false);
   };
 
+  const handleStartGame = () => {
+    if (player1 !== "" && player2 !== "") {
+      validGame(true);
+    } else {
+      alert(" Please input both players names");
+    }
+  };
+
+  const handleModalClose = () => {
+    showModal(false);
+  };
   return (
     <div className="game-layout">
-      <Tile
-        className="flex-item grid"
-        base={game}
-        updateGame={updateGameState}
-      ></Tile>
+      <>
+        {winnerModal && (
+          <Suspense fallback={<>Loading...</>}>
+            <WinnerModal
+              show={winner !== ""}
+              player={winner}
+              handleClose={handleModalClose}
+            ></WinnerModal>
+          </Suspense>
+        )}
+      </>
+      {startGame && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <Tile
+            className="flex-item grid"
+            base={game}
+            updateGame={updateGameState}
+            cardState={gameOver}
+          ></Tile>
+        </Suspense>
+      )}
       <div className="flex-item">
         <Logo></Logo>
-        <Player handlePlayer={setPlayer1} player="player 1"></Player>
-        <Player handlePlayer={setPlayer2} player="player 2"></Player>
-        {player1 && player2 && (
-          <button className="start-button"> Start </button>
-        )}
-        {player1 && player2 && (
-          <button className="reset-button" onClick={handleReset}>
-            {" "}
-            Reset{" "}
-          </button>
-        )}
+        <Player
+          handlePlayer={setPlayer1}
+          player="player 1"
+          valid={startGame}
+        ></Player>
+        <Player
+          handlePlayer={setPlayer2}
+          player="player 2"
+          valid={startGame}
+        ></Player>
+        <button className="start-button" onClick={handleStartGame}>
+          Start
+        </button>
+        {gameOver && <button className="reset-button" onClick={handleReset}>
+          Reset
+        </button>}
       </div>
-    </div>
-  );
-}
-
-function Player({ handlePlayer, player }) {
-  return (
-    <div className="input-container">
-      <label className="input-label">{player}</label>
-      <input
-        type="text"
-        className="input-field"
-        onChange={(e) => handlePlayer(e.target.value)}
-      ></input>
     </div>
   );
 }

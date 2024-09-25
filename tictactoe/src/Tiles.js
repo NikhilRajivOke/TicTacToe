@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-function Tile({ base, updateGame }) {
-  
-  const [curPlayer, setPlayer] = useState("player1");
-  const handlePlayerMove = (rowIndex, markIndex, mark) => {
-    base[rowIndex][markIndex] = mark;
+function Tile({ base, updateGame, cardState }) {
+  const [curPlayer, setPlayer] = useState("X");
+  const handlePlayerMove = (rowIndex, markIndex) => {
+    if(cardState || base[rowIndex][markIndex]!=='') return;
+    base[rowIndex][markIndex] = curPlayer;
+    setPlayer(curPlayer === 'X' ? 'O' : 'X');
     updateGame(base);
   };
   return (
@@ -20,6 +21,7 @@ function Tile({ base, updateGame }) {
             curPlayer={curPlayer}
             setPlayer={setPlayer}
             key={rowIndex * 3 + markIndex}
+            cardState={cardState}
           ></Card>
         ))
       )}
@@ -27,18 +29,22 @@ function Tile({ base, updateGame }) {
   );
 }
 
-function Card({ mark, rowIndex, markIndex, handler, curPlayer, setPlayer }) {
+function Card({
+  mark,
+  rowIndex,
+  markIndex,
+  handler,
+  cardState,
+}) {
   const [clicked, setClicked] = useState(false);
   return (
-    <button disabled={clicked}
+    <button
       onClick={(e) => {
         setClicked(!clicked);
-        let movePlayed = curPlayer == "player1" ? "X" : "O";
-        handler(rowIndex, markIndex, movePlayed);
-        setPlayer(curPlayer == "player1"?"player2":"player1");
+        handler(rowIndex, markIndex);
       }}
     >
-      {clicked && <div className="mark">{mark ? mark : curPlayer == "player1" ? "X" : "O"}</div>}
+      {clicked && <div className="mark">{mark}</div>}
     </button>
   );
 }
