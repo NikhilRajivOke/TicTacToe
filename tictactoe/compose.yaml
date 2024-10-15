@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  backend:
+    image: spring-app:latest-v1
+    container_name: tictactoe-backend-app
+    environment:
+      APP_REACT_APP_URL: http://localhost:3000
+    ports:
+      - "8081:8080"
+    networks:
+      - tictactoe-network
+
+  frontend:
+    image: tictactoe:latest-v1
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_BACKEND_URL=http://localhost:8081/game
+    container_name: tictactoe-frontend-app
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    networks:
+      - tictactoe-network
+
+networks:
+  tictactoe-network:
+    driver: bridge

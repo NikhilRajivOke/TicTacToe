@@ -7,10 +7,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
-    @Value("${app.REACT_APP_URL}")
+    @Value("${app.react.app.url}")
     private String react_app_url;
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        System.out.println("config frontendurl : " + react_app_url);
+
         registry.addMapping("/**")
                 .allowedOrigins(react_app_url)
                 .allowedMethods("GET", "POST", "PUT", "DELETE")

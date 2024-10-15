@@ -2,6 +2,8 @@ package com.tictactoe.service;
 
 import com.tictactoe.Models.GameState;
 
+import java.util.Arrays;
+
 public class TicTacToeGame {
     private String[] board = new String[9];
     private String currentPlayer = "X";
@@ -20,6 +22,12 @@ public class TicTacToeGame {
             currentPlayer = currentPlayer.equals("X") ? "O" : "X";
             winner = checkWinner();
         }
+    }
+
+    public void resetGame(){
+        currentPlayer = "X";
+        winner="";
+        Arrays.fill(board,"");
     }
 
     public GameState gameState(){

@@ -10,6 +10,7 @@ body {
     rgb(32, 3, 93) 100%
   );
   font-size: 18px;
+  min-height: 100vh;
 }
 .parent {
   font-family: fantasy;
@@ -19,47 +20,73 @@ body {
   display: flex;
   justify-content: space-between;
   .tictactoe {
-    width: 60%;
-    padding: 5%;
+    width: 0%;
+    transition: width 2s ease;
   }
   .players {
-    width: 40%;
+    width: 100%;
+    transition: width 2s ease;
     padding: 5%;
-    margin: 5%;
+    margin: 2% 15%;
     border: 4px solid white;
     border-radius: 20px;
     background: transparent;
-    .form-input {
-      width: 90%;
-      margin: 5%;
-      input {
-        background: transparent;
-        border: none;
-        padding: 5%;
-        padding-bottom: 1%;
-        width: 100%;
-        border-bottom: 1px solid white;
+    .default {
+      .quote {
+        font-size: 4rem;
+        text-align: center;
+        letter-spacing: 20%;
+      }
+      .btn {
+        margin: 2% 25%;
+        width: 50%;
+        padding: 3%;
+        background-color: transparent;
+        border: 2px solid white;
         color: white;
-        letter-spacing: 2px;
+        font-family: fantasy;
+        border-radius: 10px;
+        font-size: 2rem;
       }
-      input:focus {
-        outline: none;
+      .btn:hover {
+        background-color: white;
+        color: rgba(146, 60, 207, 1);
       }
     }
-    .btn {
-      width: 100%;
-      padding: 4%;
-      background-color: transparent;
-      border: 2px solid white;
-      color: white;
-      margin: 5%;
-      font-family: fantasy;
-      border-radius: 10px;
-      font-size: 1.2rem;
-    }
-    .btn:hover {
-      background-color: white;
-      color: rgba(146, 60, 207, 1);
+
+    .form-div {
+      .form-input {
+        margin-bottom: 1vh;
+        input {
+          background: transparent;
+          margin-bottom: 3%;
+          border: none;
+          padding: 3% 1%;
+          padding-bottom: 1%;
+          width: 100%;
+          border-bottom: 1px solid white;
+          color: white;
+          letter-spacing: 2px;
+        }
+        input:focus {
+          outline: none;
+        }
+      }
+      .btn {
+        width: 95%;
+        padding: 3%;
+        margin: 2%;
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
+        font-family: fantasy;
+        border-radius: 10px;
+        font-size: 1.2rem;
+      }
+      .btn:hover {
+        background-color: white;
+        color: rgba(146, 60, 207, 1);
+      }
     }
   }
 }
@@ -98,4 +125,11 @@ body {
   font-size: 7rem;
   text-align: center;
   margin: 2%;
+  color: blueviolet;
+}
+
+.info-box {
+  font-family: fantasy;
+  font-size: 1.5rem;
+  padding: 2% 1%;
 }

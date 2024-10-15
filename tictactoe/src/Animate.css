@@ -1,0 +1,9 @@
+.expanded {
+  width: 60% !important;
+  margin: 5%;
+  width: 60%;
+}
+.shrunk {
+  width: 40% !important;
+  margin: 5% !important;
+}

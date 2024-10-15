@@ -11,7 +11,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    @Value("${app.REACT_APP_URL}")
+    @Value("${app.react.app.url}")
     private String react_app_url;
 
     @Override
@@ -22,6 +22,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        System.out.println(" frontend-url : " + react_app_url);
         registry.addEndpoint("/game")
                 .setAllowedOrigins(react_app_url)
                 .withSockJS();

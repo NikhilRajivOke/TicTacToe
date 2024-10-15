@@ -21,4 +21,11 @@ public class GameController {
         game.makeMove(move.getPlayer(), move.getIndex());
         return game.gameState();
     }
+
+    @MessageMapping("/reset")
+    @SendTo("/topic/game")
+    public GameState resetGame(){
+        game.resetGame();
+        return game.gameState();
+    }
 }
